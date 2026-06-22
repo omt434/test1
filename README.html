@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA Sem 2 (C3) - Java Unit 1 Study Notes</title>
+    <!-- Tailwind CSS for Layout & Responsiveness -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Realistic Handwriting -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Kalam:wght@300;400;700&family=Permanent+Marker&family=Architects+Daughter&family=Indie+Flower&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables for Pen & Paper Aesthetics */
+        :root {
+            --paper-color: #fdfdfa;
+            --blue-ink: #1d3557; /* Rich Pilot G2 Blue */
+            --red-marker: #c1121f; /* Felt Red Pen */
+            --highlight-yellow: rgba(254, 240, 138, 0.85); /* Highlighter Yellow */
+            --pencil-grey: #4a5568;
+            --margin-pink: #f87171;
+            --rule-blue: #e2e8f0;
+        }
+
+        /* Handwritten Font Helpers */
+        .font-cursive {
+            font-family: 'Caveat', cursive;
+        }
+        .font-hand-bold {
+            font-family: 'Kalam', cursive;
+            font-weight: 700;
+        }
+        .font-marker {
+            font-family: 'Permanent Marker', cursive;
+        }
+        .font-doodle {
+            font-family: 'Architects Daughter', cursive;
+        }
+        .font-sketch {
+            font-family: 'Indie Flower', cursive;
+        }
+
+        /* Realistic Notebook Ruled Paper */
+        .notebook-page {
+            background-color: var(--paper-color);
+            background-image: 
+                linear-gradient(90deg, transparent 79px, var(--margin-pink) 79px, var(--margin-pink) 81px, transparent 81px),
+                linear-gradient(#e2e8f0 1.8rem, transparent 1.8rem);
+            background-size: 100% 100%, 100% 1.8rem;
+            line-height: 1.8rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Spiral Ring Styling */
+        .spiral-ring {
+            background: linear-gradient(180deg, #94a3b8 0%, #cbd5e1 35%, #64748b 70%, #475569 100%);
+            border-radius: 4px;
+            box-shadow: inset 1px 1px 3px rgba(255,255,255,0.8), 2px 2px 5px rgba(0,0,0,0.35);
+        }
+
+        /* Hand-drawn Underlines & Elements */
+        .rough-underline {
+            position: relative;
+        }
+        .rough-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--red-marker);
+            border-radius: 100px;
+            opacity: 0.7;
+            transform: rotate(-1deg);
+        }
+
+        .highlight-stroke {
+            background: linear-gradient(104deg, var(--highlight-yellow) 0%, rgba(254, 240, 138, 0.95) 100%);
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.4em 0.1em;
+            display: inline;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+
+        /* Scribble border */
+        .scribble-box {
+            border: 2px dashed #94a3b8;
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+        }
+
+        .marker-title-red {
+            color: var(--red-marker);
+            font-family: 'Permanent Marker', cursive;
+            transform: rotate(-1deg);
+        }
+
+        .blue-gel-ink {
+            color: var(--blue-ink);
+            font-family: 'Caveat', cursive;
+            font-size: 1.45rem;
+        }
+
+        /* Slide Transition CSS */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Scrollbar styles matching paper themes */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Custom checked style for study checklist */
+        .notebook-checkbox {
+            appearance: none;
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 2px solid var(--blue-ink);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            transform: rotate(3deg);
+        }
+        .notebook-checkbox:checked::before {
+            content: '✓';
+            position: absolute;
+            color: var(--red-marker);
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.1rem;
+            top: -6px;
+            left: 1px;
+        }
+
+        /* Hide margin vertical lines in Print PDF mode */
+        @media print {
+            body {
+                background: white !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .notebook-page {
+                box-shadow: none !important;
+                background-color: white !important;
+                background-image: none !important;
+                padding-left: 2rem !important;
+            }
+            .tab-content {
+                display: block !important;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-stone-200 min-h-screen py-6 px-3 sm:px-6 md:px-12 transition-all duration-300">
+
+    <!-- Top Management Bar -->
+    <div class="max-w-7xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-4 bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-md border border-stone-300/60 no-print">
+        <div>
+            <span class="bg-red-600 text-white font-bold px-2.5 py-1 rounded text-xs tracking-wider uppercase">BCA SEM II (C3)</span>
+            <h1 class="text-xl md:text-2xl font-hand-bold inline-block ml-2 text-stone-800">Topper's Personal Diary & Study Logs</h1>
+            <p class="text-xs text-stone-500 font-cursive mt-0.5">Written in premium blue gel pen with critical exam flags and diagrams</p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+            <!-- Search bar -->
+            <div class="relative">
+                <input type="text" id="notebookSearch" oninput="searchNotebook()" placeholder="Find topic (e.g. JVM, WORA)..." class="w-48 sm:w-60 px-3 py-1.5 text-sm bg-stone-50 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 font-cursive text-lg">
+                <svg class="absolute right-3 top-2.5 w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            
+            <button onclick="toggleViewMode()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1">
+                <span id="viewBtnText">📚 Continuous Study Mode</span>
+            </button>
+            <button onclick="window.print()" class="bg-stone-800 hover:bg-stone-900 text-white font-semibold text-xs sm:text-sm px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1">
+                <span>🖨️ Print Notes</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Spiral Bound Notebook Container -->
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row relative">
+        
+        <!-- Left Margin Spiral Rings (Simulated Spiral Notebook) - Desktop Only -->
+        <div class="absolute left-[70px] top-6 bottom-6 w-8 flex flex-col justify-around pointer-events-none z-20 no-print hidden lg:flex">
+            <!-- Programmatically generated rings in DOM loaded event -->
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+            <div class="spiral-ring w-4 h-8 border-r border-slate-600 -translate-x-1.5"></div>
+        </div>
+
+        <!-- Notebook Side Tabs Navigation -->
+        <nav id="notebookTabs" class="w-full lg:w-48 xl:w-56 flex flex-row lg:flex-col items-stretch overflow-x-auto lg:overflow-x-visible gap-1 pb-2 lg:pb-0 lg:pr-1.5 z-10 no-print shrink-0">
+            <button onclick="switchTab(0)" class="tab-btn active bg-rose-100 hover:bg-rose-200 border-l-4 border-rose-500 text-stone-800 text-left px-4 py-3 rounded-t-lg lg:rounded-t-none lg:rounded-l-lg transition duration-200 flex items-center justify-between gap-2 shadow-sm shrink-0">
+                <span class="font-hand-bold text-md text-stone-800 pointer-events-none">📖 1. Core Intro & History</span>
+                <span class="hidden xl:inline text-xs bg-rose-500 text-white px-1.5 py-0.5 rounded-full pointer-events-none">IMP</span>
+            </button>
+            <button onclick="switchTab(1)" class="tab-btn bg-amber-100 hover:bg-amber-200 border-l-4 border-amber-500 text-stone-800 text-left px-4 py-3 transition duration-200 flex items-center justify-between gap-2 shadow-sm shrink-0">
+                <span class="font-hand-bold text-md text-stone-800 pointer-events-none">✨ 2. Features of Java</span>
+                <span class="hidden xl:inline text-xs bg-amber-500 text-white px-1.5 py-0.5 rounded-full pointer-events-none">WORA</span>
+            </button>
+            <button onclick="switchTab(2)" class="tab-btn bg-blue-100 hover:bg-blue-200 border-l-4 border-blue-500 text-stone-800 text-left px-4 py-3 transition duration-200 flex items-center justify-between gap-2 shadow-sm shrink-0 font-hand-bold text-md">
+                <span class="pointer-events-none">⚙️ 3. JDK, JRE, & JVM</span>
+                <span class="hidden xl:inline text-xs bg-blue-500 text-white px-1.5 py-0.5 rounded-full pointer-events-none">VIVA</span>
+            </button>
+            <button onclick="switchTab(3)" class="tab-btn bg-emerald-100 hover:bg-emerald-200 border-l-4 border-emerald-500 text-stone-800 text-left px-4 py-3 transition duration-200 flex items-center justify-between gap-2 shadow-sm shrink-0 font-hand-bold text-md">
+                <span class="pointer-events-none">📁 4. Architecture & Run</span>
+                <span class="hidden xl:inline text-xs bg-emerald-500 text-white px-1.5 py-0.5 rounded-full pointer-events-none">FLOW</span>
+            </button>
+            <button onclick="switchTab(4)" class="tab-btn bg-purple-100 hover:bg-purple-200 border-l-4 border-purple-500 text-stone-800 text-left px-4 py-3 transition duration-200 flex items-center justify-between gap-2 shadow-sm shrink-0 font-hand-bold text-md">
+                <span class="pointer-events-none">💻 5. First Program & Structure</span>
+                <span class="hidden xl:inline text-xs bg-purple-500 text-white px-1.5 py-0.5 rounded-full pointer-events-none">CODE</span>
+            </button>
+            <button onclick="switchTab(5)" class="tab-btn bg-cyan-100 hover:bg-cyan-200 border-l-4 border-cyan-500 text-stone-800 text-left px-4 py-3 rounded-b-lg lg:rounded-b-none lg:rounded-l-lg transition duration-200 flex items-center justify-between gap-2 shadow-sm shrink-0 font-hand-bold text-md">
+                <span class="pointer-events-none">🎓 6. Revision & Viva Prep</span>
+                <span class="hidden xl:inline text-xs bg-cyan-500 text-white px-1.5 py-0.5 rounded-full pointer-events-none">10M</span>
+            </button>
+        </nav>
+
+        <!-- Main Handwritten Ruled Sheets -->
+        <main class="flex-1 w-full relative z-10">
+            
+            <!-- Page Cover Spine (Spiral Shadow simulation) -->
+            <div class="absolute left-[79px] top-0 bottom-0 w-1 bg-stone-300 z-10 no-print opacity-60"></div>
+
+            <!-- Page Container wrapper to maintain spacing inside pages -->
+            <div id="notebookContent" class="notebook-page w-full p-4 md:p-8 pl-[95px] pr-4 sm:pr-8 min-h-[90vh] md:min-h-[850px] overflow-hidden">
+                
+                <!-- ================= PAGE 1: CORE INTRO & HISTORY ================= -->
+                <section id="tab-0" class="tab-content active space-y-6">
+                    <!-- Unit Banner -->
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="marker-title-red text-3xl md:text-5xl uppercase tracking-wider">Unit 1: Introduction to Java</h2>
+                            <p class="font-cursive text-xl text-stone-600 mt-1">Syllabus Code: BCA Semester 2 (C3)</p>
+                        </div>
+                        <div class="hidden md:block pointer-events-none transform rotate-3 -translate-y-2">
+                            <span class="bg-yellow-100 border border-yellow-300 text-yellow-800 text-xs font-semibold px-2 py-1 rounded shadow">☕ Powered by Java Coffee!</span>
+                        </div>
+                    </div>
+
+                    <!-- WORA Quote Highlight -->
+                    <div class="my-6 relative bg-yellow-50/70 py-4 px-6 rounded-lg scribble-box max-w-xl mx-auto transform -rotate-1 shadow-sm">
+                        <p class="font-cursive text-center text-2xl font-bold text-red-700">
+                            "Write Once, Run Anywhere" (WORA)
+                        </p>
+                        <p class="font-cursive text-center text-lg text-slate-600 leading-tight mt-1">
+                            This is the main golden design rule of Java! Program compiles into intermediate code (bytecode) which can execute on <span class="highlight-stroke text-stone-800 font-bold">ANY OS with a JVM</span>.
+                        </p>
+                    </div>
+
+                    <!-- Section 1.1 Core Definition -->
+                    <div class="space-y-2">
+                        <h3 class="font-hand-bold text-xl md:text-2xl text-red-600 flex items-center gap-2">
+                            <span>📌</span> 1. What is Java? (Exam Definition)
+                        </h3>
+                        <div class="blue-gel-ink leading-relaxed space-y-2">
+                            <p>
+                                Java is a <span class="highlight-stroke font-bold">high-level, object-oriented, class-based, secure, robust, and platform-independent</span> programming language. 
+                            </p>
+                            <p>
+                                Originally designed for smart electronic devices (like interactive TVs), but it took off to become the ultimate choice for internet-ready applications, Android apps, and massive enterprise architectures.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Margin Note / Doodle Box -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <!-- Key Characteristics -->
+                        <div class="border-2 border-stone-300 rounded-xl p-4 bg-white/40 shadow-sm relative">
+                            <span class="absolute -top-3 -right-3 font-doodle bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full rotate-6">VIVA CRITICAL!</span>
+                            <h4 class="font-hand-bold text-lg text-stone-800 mb-2">📒 Core Characteristics:</h4>
+                            <ul class="font-cursive text-xl text-blue-900 space-y-1 list-disc pl-5">
+                                <li>High-Level (No direct hardware assembly needed)</li>
+                                <li><span class="highlight-stroke">Object-Oriented</span> (Encapsulation, Class, Poly, inheritance)</li>
+                                <li>Platform Independent</li>
+                                <li>Distributed & Multi-threaded</li>
+                                <li>Highly Secure & Extremely Robust</li>
+                            </ul>
+                        </div>
+
+                        <!-- History Section -->
+                        <div class="border-2 border-stone-300 rounded-xl p-4 bg-white/40 shadow-sm relative">
+                            <h4 class="font-hand-bold text-lg text-stone-800 mb-2">📜 Short History:</h4>
+                            <div class="font-cursive text-xl text-blue-950 leading-relaxed">
+                                <p>💻 Developed in <span class="highlight-stroke font-bold">1991</span> by the famous <span class="font-hand-bold text-red-600">James Gosling</span> & his core team at <span class="font-semibold">Sun Microsystems</span>.</p>
+                                <p class="mt-2 text-slate-600 italic">💡 Originally named <span class="line-through">OAK</span> (after an oak tree outside Gosling's cabin window) & subsequently renamed to <span class="font-bold underline text-rose-600">JAVA</span> in 1995 (from Java Espresso!).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- History Timeline Table -->
+                    <div class="mt-8">
+                        <h4 class="font-hand-bold text-lg text-red-600 mb-3">🕒 Historical Milestone Ledger:</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left font-cursive text-lg border-collapse border-2 border-slate-400">
+                                <thead class="bg-slate-100 font-hand-bold">
+                                    <tr>
+                                        <th class="border-2 border-slate-400 px-4 py-2 text-red-700">📅 Year</th>
+                                        <th class="border-2 border-slate-400 px-4 py-2 text-red-700">🚀 Key Milestone</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-blue-950">
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5 font-bold">1991</td>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5">Oak Project started by Green Team</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5 font-bold">1995</td>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5">Official Java Release (Sun Micro)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5 font-bold">1996</td>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5">JDK 1.0 released to the public</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5 font-bold">2004</td>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5">Java 5 launched (Huge language upgrade!)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5 font-bold">2009</td>
+                                        <td class="border-2 border-slate-400 px-4 py-1.5">Oracle Corporation acquires Sun Microsystems</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Need for Java Concept Box -->
+                    <div class="mt-6 p-4 rounded-lg bg-rose-50/50 border border-rose-200">
+                        <h4 class="font-hand-bold text-lg text-rose-700 flex items-center gap-1">
+                            <span>❓</span> Why was Java needed?
+                        </h4>
+                        <div class="blue-gel-ink text-lg mt-1 space-y-2">
+                            <p><strong>Before Java:</strong> Program compiled straight into CPU-specific machine instructions. A program written on Windows could <u>NEVER</u> run on Unix without rewriting or re-compiling source code!</p>
+                            <p><strong>Java Solution:</strong> Introduced the virtual processor layer (<span class="font-hand-bold text-red-600">JVM</span>). This decoupled program execution from the physical hardware host machine entirely!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 2: FEATURES OF JAVA ================= -->
+                <section id="tab-1" class="tab-content space-y-6">
+                    <h2 class="marker-title-red text-3xl md:text-5xl uppercase tracking-wider">Features of Java</h2>
+                    <p class="font-cursive text-xl text-stone-600 -mt-2">"The Buzzwords of Java" - High scoring in 10-Mark Exams!</p>
+
+                    <!-- Features Map SVG -->
+                    <div class="my-6 p-4 bg-white/60 border border-slate-300 rounded-xl shadow-sm text-center">
+                        <h4 class="font-hand-bold text-red-600 mb-4">🎨 Mind Map: 9 Essential Java Buzzwords</h4>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="bg-blue-100 font-hand-bold text-blue-800 px-3 py-1 rounded-full text-sm">1. Simple</span>
+                            <span class="bg-amber-100 font-hand-bold text-amber-800 px-3 py-1 rounded-full text-sm">2. Object-Oriented</span>
+                            <span class="bg-red-100 font-hand-bold text-red-800 px-3 py-1 rounded-full text-sm">3. Platform Independent</span>
+                            <span class="bg-purple-100 font-hand-bold text-purple-800 px-3 py-1 rounded-full text-sm">4. Secure</span>
+                            <span class="bg-emerald-100 font-hand-bold text-emerald-800 px-3 py-1 rounded-full text-sm">5. Robust</span>
+                            <span class="bg-cyan-100 font-hand-bold text-cyan-800 px-3 py-1 rounded-full text-sm">6. Portable</span>
+                            <span class="bg-indigo-100 font-hand-bold text-indigo-800 px-3 py-1 rounded-full text-sm">7. Multithreaded</span>
+                            <span class="bg-teal-100 font-hand-bold text-teal-800 px-3 py-1 rounded-full text-sm">8. Distributed</span>
+                            <span class="bg-stone-100 font-hand-bold text-stone-800 px-3 py-1 rounded-full text-sm">9. High Performance</span>
+                        </div>
+                    </div>
+
+                    <!-- Detailed features points with doodles -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 blue-gel-ink text-xl">
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">1. Simple 📝</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    Syntax is directly clean and based on simplified C++ without complex, confusing features like <span class="highlight-stroke text-stone-900 font-bold">pointers</span>, operator overloading, multiple inheritance, or manual memory freeing!
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">2. Object-Oriented (OOP) 📦</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    Everything in Java is written inside a class as objects! Models real-world entities through class hierarchies, encapsulation, data hiding, and polymorphic interfaces.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">3. Platform Independent 💻</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    Unlike C/C++ which compile to native OS binaries, Java compiles into <span class="highlight-stroke text-slate-900 font-bold">bytecode (.class file)</span> which can run anywhere with a JVM installed.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">4. Highly Secure 🛡️</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    No explicit memory pointers, JVM verifies incoming bytecodes, and security managers run code inside sandbox wrappers to block virus files or disk intrusion!
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">5. Robust & Tough 💪</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    "Robust" translates to exceptionally reliable. It achieves extreme stability via strong garbage collection, fully runtime-enforced strict typechecking, and elegant exception handling routines!
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">6. Portable 🎒</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    No hardware-specific implementation properties (e.g. integer type is guaranteed 4 bytes size on Windows, UNIX, and MacOS alike!). Take bytecode anywhere effortlessly.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">7. Multithreaded 🧵</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    Enables programs to carry out several paths of execution concurrently. Extremely useful for processing web requests or running games!
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-hand-bold text-red-600 text-lg">8. High Performance ⚡</h4>
+                                <p class="text-base text-stone-700 leading-snug">
+                                    By using JIT (<span class="font-semibold text-stone-800">Just-In-Time</span>) compilation alongside native code generation, execution speed has reached nearly native speeds today!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diagram for Platform Independence -->
+                    <div class="mt-8 bg-amber-50/50 rounded-xl p-6 border border-amber-200">
+                        <h4 class="font-hand-bold text-red-600 text-center text-xl mb-4">📊 Platform Independence Visualized</h4>
+                        <div class="flex flex-col md:flex-row items-center justify-around gap-4 text-center">
+                            <div class="bg-white border-2 border-blue-900 px-4 py-2 rounded-lg font-cursive text-lg">
+                                <span class="font-bold text-stone-800">Source Code</span><br><code class="text-blue-600 text-sm">Demo.java</code>
+                            </div>
+                            <span class="text-2xl font-bold">➡️</span>
+                            <div class="bg-blue-100 border-2 border-blue-900 px-4 py-2 rounded-lg font-cursive text-lg">
+                                <span class="font-bold text-stone-800">Java Compiler</span><br><code class="text-indigo-600 text-sm">javac</code>
+                            </div>
+                            <span class="text-2xl font-bold">➡️</span>
+                            <div class="bg-amber-100 border-2 border-red-800 px-4 py-2 rounded-lg font-cursive text-lg">
+                                <span class="font-bold text-red-800">Bytecode</span><br><code class="text-red-600 text-sm">Demo.class</code>
+                            </div>
+                            <span class="text-2xl font-bold">➡️</span>
+                            <div class="flex flex-col gap-2">
+                                <div class="bg-slate-200 px-3 py-1 rounded border border-slate-400 text-xs font-hand-bold">JVM (Win) ➔ Win Run</div>
+                                <div class="bg-slate-200 px-3 py-1 rounded border border-slate-400 text-xs font-hand-bold">JVM (Mac) ➔ Mac Run</div>
+                                <div class="bg-slate-200 px-3 py-1 rounded border border-slate-400 text-xs font-hand-bold">JVM (Linux) ➔ Linux Run</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 3: JDK, JRE, & JVM ================= -->
+                <section id="tab-2" class="tab-content space-y-6">
+                    <h2 class="marker-title-red text-3xl md:text-5xl uppercase tracking-wider">JDK vs. JRE vs. JVM</h2>
+                    <p class="font-cursive text-xl text-stone-600 -mt-2">This is the single most common university question! Study closely.</p>
+
+                    <!-- Interactive Diagram Container -->
+                    <div class="my-6 bg-white border-2 border-stone-300 rounded-2xl p-6 relative overflow-hidden shadow-md">
+                        <h4 class="font-hand-bold text-lg text-slate-800 mb-2">🔍 Concentric Architectural Stack: (Hover over blocks)</h4>
+                        
+                        <div class="flex flex-col items-center gap-4 py-4">
+                            <!-- Outer Block - JDK -->
+                            <div class="w-full max-w-lg bg-red-50 border-4 border-red-400 rounded-xl p-4 transition-transform hover:scale-105 duration-200 relative">
+                                <span class="absolute top-1 right-2 font-doodle text-xs text-red-500">Outer Box</span>
+                                <h5 class="font-hand-bold text-lg text-red-700">☕ JDK (Java Development Kit) = JRE + Tools</h5>
+                                <p class="font-cursive text-stone-600 text-md -mt-1">Used to WRITE & compile Java programs (includes <code class="bg-red-200/50 px-1 text-sm font-sans font-bold">javac</code>, <code class="bg-red-200/50 px-1 text-sm font-sans font-bold">jdb</code>)</p>
+                                
+                                <!-- Middle Block - JRE -->
+                                <div class="mt-4 bg-amber-50 border-4 border-amber-400 rounded-xl p-4 transition-transform hover:scale-105 duration-200 relative">
+                                    <span class="absolute top-1 right-2 font-doodle text-xs text-amber-500">Middle Box</span>
+                                    <h6 class="font-hand-bold text-md text-amber-700">📦 JRE (Java Runtime Environment) = JVM + Core Libs</h6>
+                                    <p class="font-cursive text-stone-600 text-sm -mt-1">Environment required to RUN compiled Java programs (no developer tools)</p>
+                                    
+                                    <!-- Inner Block - JVM -->
+                                    <div class="mt-4 bg-blue-50 border-4 border-blue-400 rounded-xl p-4 transition-transform hover:scale-105 duration-200 relative text-center">
+                                        <span class="absolute top-1 right-2 font-doodle text-xs text-blue-500">Core Engine</span>
+                                        <h6 class="font-hand-bold text-sm text-blue-700">⚙️ JVM (Java Virtual Machine)</h6>
+                                        <p class="font-cursive text-stone-600 text-xs">Pure abstract engine. Loads, verifies, interprets, & runs bytecode.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Mathematical Revision Formulas -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-stone-50 border border-stone-300 p-4 rounded-xl text-center scribble-box">
+                            <h4 class="font-hand-bold text-stone-800 text-lg mb-1">📐 Dynamic Equation 1:</h4>
+                            <p class="font-cursive text-2xl text-blue-900 font-bold">
+                                JRE = JVM + Core Class Libraries
+                            </p>
+                        </div>
+                        <div class="bg-stone-50 border border-stone-300 p-4 rounded-xl text-center scribble-box">
+                            <h4 class="font-hand-bold text-stone-800 text-lg mb-1">📐 Dynamic Equation 2:</h4>
+                            <p class="font-cursive text-2xl text-blue-900 font-bold">
+                                JDK = JRE + Development Kit Tools
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Table -->
+                    <div class="mt-6">
+                        <h4 class="font-hand-bold text-lg text-red-600 mb-2">📊 Complete Diagnostic Features Table:</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left font-cursive text-lg border-collapse border-2 border-slate-400">
+                                <thead class="bg-slate-100 font-hand-bold">
+                                    <tr>
+                                        <th class="border-2 border-slate-400 px-3 py-2 text-red-700">Feature</th>
+                                        <th class="border-2 border-slate-400 px-3 py-2 text-red-700">JVM ⚙️</th>
+                                        <th class="border-2 border-slate-400 px-3 py-2 text-red-700">JRE 📦</th>
+                                        <th class="border-2 border-slate-400 px-3 py-2 text-red-700">JDK ☕</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-blue-950">
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-3 py-1 font-bold">Full Form</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">Java Virtual Machine</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">Java Runtime Environment</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">Java Development Kit</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-3 py-1 font-bold">Main Purpose</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">Executes bytecode line-by-line</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">Provides execution ecosystem</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">Source development + execution</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-3 py-1 font-bold">Has compiler?</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-red-600 font-bold">No</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-red-600 font-bold">No</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-green-700 font-bold">Yes (javac)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-2 border-slate-400 px-3 py-1 font-bold">Contains</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">Interpreter, JIT, Garb. Coll.</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">JVM + Runtime libraries</td>
+                                        <td class="border-2 border-slate-400 px-3 py-1 text-sm">JRE + Compilation & Debugging tools</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Memory trick note -->
+                    <div class="bg-yellow-50/80 border-l-4 border-yellow-500 p-4 rounded mt-4">
+                        <span class="font-doodle text-xs bg-yellow-400 text-stone-800 px-2 py-0.5 rounded font-bold">💡 MEMORY TRICK!</span>
+                        <p class="font-cursive text-xl text-stone-800 mt-1">
+                            Imagine a nesting set of Russian dolls: **JVM** is the tiny central core doll, **JRE** is the medium doll wrapped around it, and the huge master outer doll is the **JDK**! 
+                            <br><span class="font-bold">Formula: JDK &gt; JRE &gt; JVM</span>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 4: ARCHITECTURE & RUN ================= -->
+                <section id="tab-3" class="tab-content space-y-6">
+                    <h2 class="marker-title-red text-3xl md:text-5xl uppercase tracking-wider">Java Program Architecture</h2>
+                    <p class="font-cursive text-xl text-stone-600 -mt-2">How exactly does a Java program compile and run? Step-by-step breakdown.</p>
+
+                    <!-- Interactive flow explanation -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 leading-relaxed blue-gel-ink text-xl">
+                        <!-- Steps explanation -->
+                        <div class="md:col-span-7 space-y-4">
+                            <h3 class="font-hand-bold text-2xl text-red-600">🚶‍♂️ Detailed Compile & Execution Steps</h3>
+                            
+                            <div class="border-l-2 border-blue-900 pl-4 space-y-3">
+                                <div>
+                                    <span class="font-hand-bold text-slate-800 text-lg">📁 Step 1: Write Source Code</span>
+                                    <p class="text-base text-stone-700">We write instructions in simple plain text and save with a <code class="font-sans font-bold bg-stone-100 text-blue-700 px-1 text-sm">.java</code> suffix (e.g. <code class="font-sans font-bold bg-stone-100 text-blue-700 px-1 text-sm">Demo.java</code>).</p>
+                                </div>
+                                <div>
+                                    <span class="font-hand-bold text-slate-800 text-lg">⚙️ Step 2: Compile (The javac machine)</span>
+                                    <p class="text-base text-stone-700">The developer compiles the program using terminal command: <code class="font-sans bg-stone-800 text-white rounded px-2 py-0.5 text-xs">javac Demo.java</code>. The compiler outputs a platform-neutral intermediate code file.</p>
+                                </div>
+                                <div>
+                                    <span class="font-hand-bold text-slate-800 text-lg">💿 Step 3: Bytecode Generation</span>
+                                    <p class="text-base text-stone-700">A new machine-neutral binary is auto-created with a <code class="font-sans font-bold bg-stone-100 text-red-700 px-1 text-sm">.class</code> suffix (e.g., <code class="font-sans font-bold bg-stone-100 text-red-700 px-1 text-sm">Demo.class</code>).</p>
+                                </div>
+                                <div>
+                                    <span class="font-hand-bold text-slate-800 text-lg">⚡ Step 4: Run via JVM Interpreter</span>
+                                    <p class="text-base text-stone-700">The class file is loaded into memory, verified, and run using command: <code class="font-sans bg-stone-800 text-white rounded px-2 py-0.5 text-xs">java Demo</code>. JVM converts the binary blocks into OS-specific instructions on the fly!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sticky side note -->
+                        <div class="md:col-span-5 flex flex-col gap-4">
+                            <div class="bg-cyan-50/70 border border-cyan-200 p-4 rounded-xl shadow-sm rotate-1 scribble-box">
+                                <h4 class="font-hand-bold text-cyan-800 text-lg mb-1">🔑 Concept Focus: Bytecode</h4>
+                                <p class="text-sm font-cursive text-stone-700 leading-snug">
+                                    Bytecode is **not** machine code! It's a highly optimized set of machine instructions designed specifically to run on an abstract virtual processor (the JVM). This is why Java is completely secure and safe; the host OS is guarded from rogue assembly commands!
+                                </p>
+                            </div>
+
+                            <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl shadow-sm -rotate-1 relative">
+                                <span class="absolute -top-3 -right-2 bg-rose-600 text-white text-xs px-2 py-0.5 font-doodle rounded rotate-6">DANGER!</span>
+                                <h4 class="font-hand-bold text-rose-800 text-lg mb-1">⚠️ Common Student Mistake</h4>
+                                <p class="text-sm font-cursive text-rose-950 leading-snug">
+                                    Do <strong>NOT</strong> write `javac Demo.class` or `java Demo.class` in your exams! 
+                                    <br>Remember:
+                                    <br>👉 Compile command uses source filename: <code class="bg-white px-1 text-xs font-sans font-bold">javac Demo.java</code>
+                                    <br>👉 Execution command uses class name ONLY: <code class="bg-white px-1 text-xs font-sans font-bold">java Demo</code>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flowchart visualization -->
+                    <div class="mt-8 border-2 border-stone-300 p-4 rounded-2xl bg-white">
+                        <h4 class="font-hand-bold text-center text-red-600 text-xl mb-4">🛠️ End-To-End Compilation & execution Flow</h4>
+                        <div class="flex flex-col md:flex-row items-center justify-around gap-2 text-center text-sm font-hand-bold">
+                            <div class="border border-slate-400 p-2 rounded bg-slate-50 w-36">
+                                <span class="text-xs text-stone-500">Source Script</span>
+                                <div class="text-blue-700">Demo.java</div>
+                            </div>
+                            <span class="text-stone-500 font-bold">↓ (compile command)</span>
+                            <div class="border border-red-400 p-2 rounded bg-red-50 w-36">
+                                <span class="text-xs text-stone-500">javac Compiler</span>
+                                <div class="text-red-700">Generates Bytecode</div>
+                            </div>
+                            <span class="text-stone-500 font-bold">↓ (output binary)</span>
+                            <div class="border border-green-400 p-2 rounded bg-green-50 w-36">
+                                <span class="text-xs text-stone-500">Bytecode File</span>
+                                <div class="text-green-700">Demo.class</div>
+                            </div>
+                            <span class="text-stone-500 font-bold">↓ (execution)</span>
+                            <div class="border border-purple-400 p-2 rounded bg-purple-50 w-36">
+                                <span class="text-xs text-stone-500">JVM Engine</span>
+                                <div class="text-purple-700">Runtime Translation</div>
+                            </div>
+                            <span class="text-stone-500 font-bold">↓ (hardware output)</span>
+                            <div class="border border-stone-800 p-2 rounded bg-stone-900 text-white w-32">
+                                <span class="text-xs text-stone-300">Screen Output</span>
+                                <div>"Hello Java"</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 5: FIRST PROGRAM & STRUCTURE ================= -->
+                <section id="tab-4" class="tab-content space-y-6">
+                    <h2 class="marker-title-red text-3xl md:text-5xl uppercase tracking-wider">Java Code Structure</h2>
+                    <p class="font-cursive text-xl text-stone-600 -mt-2">Analyzing our very first Java program block line-by-line.</p>
+
+                    <!-- Code block -->
+                    <div class="my-6 bg-slate-900 text-slate-100 rounded-xl p-6 font-mono text-sm md:text-base shadow-lg relative border-4 border-stone-400">
+                        <span class="absolute top-2 right-4 text-xs font-sans text-slate-400">FirstProgram.java</span>
+                        <div class="space-y-1">
+                            <p><span class="text-pink-400">class</span> <span class="text-yellow-300">FirstProgram</span></p>
+                            <p>{</p>
+                            <p class="pl-6"><span class="text-pink-400">public static void</span> <span class="text-blue-300">main</span>(String args[])</p>
+                            <p class="pl-6">{</p>
+                            <p class="pl-12 text-green-400">// This outputs our text to the terminal screen</p>
+                            <p class="pl-12"><span class="text-yellow-300">System</span>.out.println(<span class="text-orange-300">"Welcome to Java"</span>);</p>
+                            <p class="pl-6">}</p>
+                            <p>}</p>
+                        </div>
+                    </div>
+
+                    <!-- Component breakdown -->
+                    <div class="space-y-4">
+                        <h3 class="font-hand-bold text-2xl text-red-600">🔎 Code Analysis (Viva Hotspots!)</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 blue-gel-ink text-lg leading-snug">
+                            <div class="border border-stone-300 p-4 rounded-xl bg-white/40">
+                                <h4 class="font-hand-bold text-stone-800 text-lg mb-1"><code class="font-mono bg-stone-100 text-sm font-bold text-red-600">class FirstProgram</code></h4>
+                                <p class="text-base text-stone-700">Declares a class template. In Java, <span class="highlight-stroke">ALL executable logic must reside inside a class template!</span> The class name should ideally match the file name.</p>
+                            </div>
+
+                            <div class="border border-stone-300 p-4 rounded-xl bg-white/40">
+                                <h4 class="font-hand-bold text-stone-800 text-lg mb-1"><code class="font-mono bg-stone-100 text-sm font-bold text-red-600">public</code></h4>
+                                <p class="text-base text-stone-700">Access specifier meaning the main entry point class must be publicly visible so that the virtual machine (JVM) can trigger execution from outside the directory boundaries!</p>
+                            </div>
+
+                            <div class="border border-stone-300 p-4 rounded-xl bg-white/40">
+                                <h4 class="font-hand-bold text-stone-800 text-lg mb-1"><code class="font-mono bg-stone-100 text-sm font-bold text-red-600">static</code></h4>
+                                <p class="text-base text-stone-700">Keyword enabling JVM to load and execute the main process <span class="highlight-stroke font-semibold">without constructing an object instance</span> of our class first! Saves memory.</p>
+                            </div>
+
+                            <div class="border border-stone-300 p-4 rounded-xl bg-white/40">
+                                <h4 class="font-hand-bold text-stone-800 text-lg mb-1"><code class="font-mono bg-stone-100 text-sm font-bold text-red-600">void</code></h4>
+                                <p class="text-base text-stone-700">Method return specification indicating that once the program finishes, it returns absolutely nothing back to the terminal shell environment.</p>
+                            </div>
+
+                            <div class="border border-stone-300 p-4 rounded-xl bg-white/40">
+                                <h4 class="font-hand-bold text-stone-800 text-lg mb-1"><code class="font-mono bg-stone-100 text-sm font-bold text-red-600">main(...)</code></h4>
+                                <p class="text-base text-stone-700">Special entry method sequence searched during JVM bootstrap. Accepts external command arguments inside a native String array parameter: <code class="font-mono text-xs">String args[]</code>.</p>
+                            </div>
+
+                            <div class="border border-stone-300 p-4 rounded-xl bg-white/40">
+                                <h4 class="font-hand-bold text-stone-800 text-lg mb-1"><code class="font-mono bg-stone-100 text-sm font-bold text-red-600">System.out.println()</code></h4>
+                                <p class="text-base text-stone-700">Standard standard library print utility: <br>➔ <code class="font-mono text-xs font-bold text-slate-800">System</code>: Core system class.<br>➔ <code class="font-mono text-xs font-bold text-slate-800">out</code>: Standard console stream object.<br>➔ <code class="font-mono text-xs font-bold text-slate-800">println</code>: Prints content followed by a newline.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications list with small layout doodles -->
+                    <div class="mt-8 border border-slate-300 bg-amber-50/50 p-6 rounded-xl">
+                        <h3 class="font-hand-bold text-red-600 text-xl mb-3">🛠️ Practical Applications of Java:</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center font-cursive text-lg">
+                            <div class="bg-white border p-3 rounded-lg shadow-xs">
+                                <div class="text-2xl">🖥️</div>
+                                <strong class="text-stone-800">Desktop Apps</strong>
+                                <p class="text-xs text-stone-500">Media players, utilities, ERP systems</p>
+                            </div>
+                            <div class="bg-white border p-3 rounded-lg shadow-xs">
+                                <div class="text-2xl">🌐</div>
+                                <strong class="text-stone-800">Web Portals</strong>
+                                <p class="text-xs text-stone-500">Banking engines, e-com services</p>
+                            </div>
+                            <div class="bg-white border p-3 rounded-lg shadow-xs">
+                                <div class="text-2xl">📱</div>
+                                <strong class="text-stone-800">Mobile Apps</strong>
+                                <p class="text-xs text-stone-500">Native Android app frameworks</p>
+                            </div>
+                            <div class="bg-white border p-3 rounded-lg shadow-xs">
+                                <div class="text-2xl">☁️</div>
+                                <strong class="text-stone-800">Cloud & Micro</strong>
+                                <p class="text-xs text-stone-500">Distributed enterprise pipelines</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 6: REVISION & VIVA PREP ================= -->
+                <section id="tab-5" class="tab-content space-y-6">
+                    <h2 class="marker-title-red text-3xl md:text-5xl uppercase tracking-wider">Revision & Exam Prep</h2>
+                    <p class="font-cursive text-xl text-stone-600 -mt-2">Cheat sheets, key questions, and an interactive trial quiz for Vivis!</p>
+
+                    <!-- Revision cheat sheet -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-rose-50/50 border border-rose-200 p-4 rounded-xl">
+                            <h3 class="font-hand-bold text-rose-700 text-lg mb-2">⭐ Last Minute Cheat Sheet</h3>
+                            <ul class="font-cursive text-xl text-blue-950 space-y-2 list-disc pl-5">
+                                <li><strong>Father of Java:</strong> <span class="highlight-stroke text-stone-900 font-bold">James Gosling</span> at Sun Microsystems.</li>
+                                <li><strong>Initial Code name:</strong> Oak (renamed in 1995).</li>
+                                <li><strong>Main Concept:</strong> <span class="highlight-stroke font-bold">WORA</span> (Write Once Run Anywhere).</li>
+                                <li><strong>Binary Type:</strong> Bytecode (.class files).</li>
+                                <li><strong>Compilation CLI:</strong> <code class="font-mono text-sm bg-white px-1">javac File.java</code></li>
+                                <li><strong>Runtime CLI:</strong> <code class="font-mono text-sm bg-white px-1">java File</code></li>
+                            </ul>
+                        </div>
+
+                        <!-- Pros & Cons list -->
+                        <div class="bg-stone-50 border border-stone-300 p-4 rounded-xl scribble-box">
+                            <h3 class="font-hand-bold text-stone-800 text-lg mb-2">⚖️ Pros vs. Cons Comparison</h3>
+                            <div class="font-cursive text-lg grid grid-cols-2 gap-4">
+                                <div>
+                                    <h4 class="font-bold text-green-700">✔ Advantages:</h4>
+                                    <ul class="list-disc pl-4 text-sm text-stone-700 space-y-1">
+                                        <li>Hardware Independent</li>
+                                        <li>Excellent Sandbox Security</li>
+                                        <li>Automatic Memory Management</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-red-700">✘ Disadvantages:</h4>
+                                    <ul class="list-disc pl-4 text-sm text-stone-700 space-y-1">
+                                        <li>Higher runtime overhead compared to C/C++</li>
+                                        <li>High memory footprints</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Viva simulator -->
+                    <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-2xl my-6">
+                        <h3 class="font-hand-bold text-indigo-800 text-xl mb-2 flex items-center gap-1">
+                            <span>🎓</span> Interactive Viva & Prep Quiz
+                        </h3>
+                        <p class="font-cursive text-stone-600 text-base mb-4">Click answers below to verify your internal knowledge database before facing the examiner!</p>
+                        
+                        <div class="space-y-4 font-cursive text-lg">
+                            <div class="border-b border-indigo-200 pb-3">
+                                <p class="font-bold text-stone-800">Q1. What is the actual name of the bytecode compilation file extension?</p>
+                                <div class="flex flex-wrap gap-2 mt-2 text-sm">
+                                    <button onclick="checkAnswer(1, false, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">.java</button>
+                                    <button onclick="checkAnswer(1, true, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">.class</button>
+                                    <button onclick="checkAnswer(1, false, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">.exe</button>
+                                </div>
+                                <p class="ans-feedback hidden text-xs font-doodle text-emerald-600 mt-1">Correct! .class contains the architecture-neutral bytecode.</p>
+                            </div>
+
+                            <div class="border-b border-indigo-200 pb-3">
+                                <p class="font-bold text-stone-800">Q2. Which architectural layer executes the compiled bytecode?</p>
+                                <div class="flex flex-wrap gap-2 mt-2 text-sm">
+                                    <button onclick="checkAnswer(2, false, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">JDK</button>
+                                    <button onclick="checkAnswer(2, false, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">JRE</button>
+                                    <button onclick="checkAnswer(2, true, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">JVM</button>
+                                </div>
+                                <p class="ans-feedback hidden text-xs font-doodle text-emerald-600 mt-1">Perfect! JVM is the abstract CPU engine running the bytecode blocks.</p>
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-stone-800">Q3. Who is historically honored as the father of the Java language?</p>
+                                <div class="flex flex-wrap gap-2 mt-2 text-sm">
+                                    <button onclick="checkAnswer(3, false, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">Dennis Ritchie</button>
+                                    <button onclick="checkAnswer(3, true, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">James Gosling</button>
+                                    <button onclick="checkAnswer(3, false, this)" class="bg-white hover:bg-slate-100 border border-indigo-300 px-3 py-1.5 rounded-lg font-hand-bold">Bjarne Stroustrup</button>
+                                </div>
+                                <p class="ans-feedback hidden text-xs font-doodle text-emerald-600 mt-1">That is correct! James Gosling invented Java (Oak) in 1991.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exam Questions bank -->
+                    <div class="mt-8 border border-slate-300 p-6 rounded-xl bg-white/80">
+                        <h3 class="font-hand-bold text-red-600 text-2xl mb-4">📝 High-Probability Exam Question Registry</h3>
+                        
+                        <div class="space-y-4 font-cursive text-lg text-stone-700">
+                            <div>
+                                <h4 class="font-hand-bold text-stone-900 border-b border-stone-200 pb-1 flex justify-between">
+                                    <span>❓ 2-Mark Short Questions</span>
+                                    <span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded">Core Keys</span>
+                                </h4>
+                                <ul class="list-disc pl-5 mt-2 space-y-1 text-base">
+                                    <li>Define Java and state its original historical code name.</li>
+                                    <li>Explain the core definition of the **WORA** paradigm.</li>
+                                    <li>Define **Bytecode** and what compiler process generates it.</li>
+                                    <li>Define the architectural abbreviations **JDK**, **JRE**, and **JVM**.</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 class="font-hand-bold text-stone-900 border-b border-stone-200 pb-1 flex justify-between">
+                                    <span>❓ 5-Mark Medium Explanations</span>
+                                    <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Critical Diagrams</span>
+                                </h4>
+                                <ul class="list-disc pl-5 mt-2 space-y-1 text-base">
+                                    <li>Differentiate between JDK, JRE, and JVM using formulas or neat layout diagrams.</li>
+                                    <li>Discuss why Java is considered "Robust" and "Secure" compared to C++.</li>
+                                    <li>Explain the complete structure of a basic Java program block.</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 class="font-hand-bold text-stone-900 border-b border-stone-200 pb-1 flex justify-between">
+                                    <span>❓ 10-Mark Core Essays</span>
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">High Marks</span>
+                                </h4>
+                                <ul class="list-disc pl-5 mt-2 space-y-1 text-base">
+                                    <li>Discuss the essential features (buzzwords) of the Java language with neat schematics.</li>
+                                    <li>Draw and write a complete explanation of the Java compilation and runtime architecture flow.</li>
+                                    <li>Analyze why Java is independent of operating system architecture. Support with neat graphics.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Interactive Bottom Status & Progress Indicator -->
+    <footer class="max-w-7xl mx-auto mt-6 p-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-stone-300/60 flex flex-wrap justify-between items-center gap-4 text-stone-600 font-cursive text-lg no-print">
+        <div class="flex items-center gap-2">
+            <span>✍️</span>
+            <span>Check off topics as you finish studying them:</span>
+        </div>
+        
+        <!-- Checklist grid -->
+        <div class="flex flex-wrap gap-4 text-sm font-hand-bold text-stone-700">
+            <label class="flex items-center gap-1.5 cursor-pointer">
+                <input type="checkbox" class="notebook-checkbox" checked>
+                <span>Core Concept</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+                <input type="checkbox" class="notebook-checkbox" checked>
+                <span>Java Features</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+                <input type="checkbox" class="notebook-checkbox">
+                <span>JVM/JRE/JDK</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer">
+                <input type="checkbox" class="notebook-checkbox">
+                <span>Architecture Flow</span>
+            </label>
+        </div>
+        
+        <div class="text-xs font-mono text-stone-400 flex flex-col items-start md:items-end gap-1">
+            <span>Current Module: BCA-S2-C3-U1</span>
+            <span class="font-hand-bold text-sm text-stone-600">
+                Built by <a href="https://github.com/OmtGod" target="_blank" class="text-red-600 underline hover:text-red-700 transition">OmtGod</a> 🚀
+            </span>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        // Navigation system between notebook pages
+        const tabs = document.querySelectorAll('.tab-content');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        let currentActiveTab = 0;
+        let isContinuousMode = false;
+
+        function switchTab(index) {
+            if (isContinuousMode) return; // Ignore tab switching if in continuous scroll mode
+            
+            // Remove active classes
+            tabs.forEach(t => t.classList.remove('active'));
+            tabBtns.forEach(b => b.classList.remove('active', 'bg-slate-300', 'font-extrabold', 'shadow-inner'));
+            
+            // Add active styles to target index
+            tabs[index].classList.add('active');
+            tabBtns[index].classList.add('active');
+            
+            // Highlight styling adaptation
+            tabBtns[index].classList.add('font-extrabold', 'shadow-inner');
+            currentActiveTab = index;
+
+            // Scroll to the top of the notebook container gracefully on change
+            document.getElementById('notebookContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Toggle Continuous Scroll mode (PDF / Book style)
+        function toggleViewMode() {
+            isContinuousMode = !isContinuousMode;
+            const contentContainer = document.getElementById('notebookContent');
+            const navTabs = document.getElementById('notebookTabs');
+            const btnText = document.getElementById('viewBtnText');
+
+            if (isContinuousMode) {
+                // Show all sheets stacked on top of each other
+                tabs.forEach(t => {
+                    t.classList.add('active');
+                    t.classList.add('border-b-4', 'border-dashed', 'border-stone-200', 'pb-10', 'mb-10');
+                });
+                navTabs.classList.add('opacity-40', 'pointer-events-none');
+                btnText.innerText = '📖 Single-Page Notebook';
+                contentContainer.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // Return to normal tabbed layout
+                tabs.forEach((t, idx) => {
+                    t.classList.remove('border-b-4', 'border-dashed', 'border-stone-200', 'pb-10', 'mb-10');
+                    if (idx !== currentActiveTab) {
+                        t.classList.remove('active');
+                    }
+                });
+                navTabs.classList.remove('opacity-40', 'pointer-events-none');
+                btnText.innerText = '📚 Continuous Study Mode';
+            }
+        }
+
+        // Simple real-time search logic
+        function searchNotebook() {
+            const query = document.getElementById('notebookSearch').value.toLowerCase();
+            const elements = document.querySelectorAll('.notebook-page p, .notebook-page h2, .notebook-page h3, .notebook-page h4, .notebook-page td, .notebook-page li');
+            
+            if (!query) {
+                // Clear any leftover manual styling
+                elements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.backgroundColor = '';
+                });
+                return;
+            }
+
+            elements.forEach(el => {
+                const text = el.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    el.style.opacity = '1';
+                    el.style.backgroundColor = 'rgba(253, 224, 71, 0.4)'; // soft highlight highlight
+                } else {
+                    el.style.opacity = '0.5';
+                    el.style.backgroundColor = '';
+                }
+            });
+        }
+
+        // Quiz checking functionality
+        function checkAnswer(questionNum, isCorrect, buttonElement) {
+            const parent = buttonElement.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            const feedback = parent.parentElement.querySelector('.ans-feedback');
+
+            // Disable all sibling buttons for this question block
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-55');
+            });
+
+            // Mark chosen button
+            if (isCorrect) {
+                buttonElement.classList.remove('bg-white', 'opacity-55');
+                buttonElement.classList.add('bg-green-100', 'border-green-600', 'text-green-800', 'font-extrabold', 'opacity-100');
+                feedback.classList.remove('hidden');
+                feedback.classList.add('block');
+            } else {
+                buttonElement.classList.remove('bg-white', 'opacity-55');
+                buttonElement.classList.add('bg-red-100', 'border-red-600', 'text-red-800', 'opacity-100');
+                feedback.innerText = "Try reviewing that topic again on the JDK/JRE/JVM tab!";
+                feedback.classList.remove('hidden', 'text-emerald-600');
+                feedback.classList.add('block', 'text-red-600');
+            }
+        }
+
+        // Initialize active visual tabs on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            switchTab(0);
+        });
+    </script>
+</body>
+</html>
